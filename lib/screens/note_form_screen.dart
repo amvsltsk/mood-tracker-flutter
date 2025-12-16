@@ -110,7 +110,7 @@ class _NoteFormScreenState extends State<NoteFormScreen> {
               ),
 
               const SizedBox(height: 36),
-              const CustomText(text: "Comment", fontSize: 16),
+              const CustomText(text: "Note", fontSize: 16),
               const SizedBox(height: 12),
 
               SizedBox(
@@ -121,7 +121,7 @@ class _NoteFormScreenState extends State<NoteFormScreen> {
                   expands: true,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: InputDecoration(
-                    hintText: "Add a comment",
+                    hintText: "Add a note...",
                     filled: true,
                     fillColor: Colors.transparent,
                     hintStyle: const TextStyle(color: Color(0xFF4D7399)),

@@ -54,8 +54,10 @@ class MoodProvider extends ChangeNotifier {
 
   Future<void> addMood(MoodEntry mood) async {
     await _repository.addMood(mood);
-    _moods.insert(0, mood); // без перезавантаження
-    notifyListeners();
+    if (_moodsSub == null) {
+      _moods.insert(0, mood);
+      notifyListeners();
+    }
   }
 
   Future<void> updateMood(MoodEntry mood) async {
@@ -81,10 +83,13 @@ class MoodProvider extends ChangeNotifier {
     var result = _moods;
 
     if (dateRange != null) {
-      result = result.where((m) =>
-      m.timestamp.isAfter(dateRange.start.subtract(const Duration(days: 1))) &&
-          m.timestamp.isBefore(dateRange.end.add(const Duration(days: 1)))
-      ).toList();
+      final start = DateTime(dateRange.start.year, dateRange.start.month, dateRange.start.day);
+      final end = DateTime(dateRange.end.year, dateRange.end.month, dateRange.end.day);
+
+      result = result.where((m) {
+        final d = DateTime(m.timestamp.year, m.timestamp.month, m.timestamp.day);
+        return !d.isBefore(start) && !d.isAfter(end);
+      }).toList();
     }
 
     if (mood != null) {
